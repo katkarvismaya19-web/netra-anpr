@@ -1,0 +1,24 @@
+# Core deep learning
+torch>=2.1
+torchvision>=0.16
+ultralytics>=8.2          # YOLOv8 detector
+
+# Image processing and data
+opencv-python>=4.8
+numpy>=1.24
+pillow>=10.0
+pandas>=2.0
+matplotlib>=3.7
+pyyaml>=6.0
+
+# Dataset download
+kagglehub>=0.3
+
+# Dashboard
+streamlit>=1.50
+
+# Tests
+pytest>=7.4
+
+# Optional baseline OCR for comparison (large download, uncomment if needed)
+# easyocr>=1.7

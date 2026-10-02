@@ -1,0 +1,60 @@
+# =============================================================================
+# Netra ANPR - central configuration
+# -----------------------------------------------------------------------------
+# Every script and the dashboard read their settings from this one file, so
+# paths and hyper-parameters only need to be changed in a single place.
+# =============================================================================
+
+paths:
+  raw_data: data/raw            # Kaggle downloads are extracted here
+  yolo_data: data/yolo          # Detector dataset after conversion (YOLO format)
+  ocr_data: data/ocr            # Synthetic + real plate crops for the OCR model
+  fonts: assets/fonts           # Fonts used to render synthetic plates
+  models: models                # Trained weights are saved here
+  outputs: outputs              # Logs, annotated images, CSV exports
+
+# Kaggle datasets used for training the plate detector.
+# Both are downloaded and merged into one YOLO-format dataset.
+datasets:
+  - slug: deepakat002/indian-vehicle-number-plate-yolo-annotation
+    note: Indian vehicles, YOLO-format bounding boxes
+  - slug: andrewmvd/car-plate-detection
+    note: 433 car images, Pascal VOC XML bounding boxes
+
+# -----------------------------------------------------------------------------
+# Stage 1 - Number plate detector (YOLOv8)
+# -----------------------------------------------------------------------------
+detector:
+  base_model: yolov8n.pt        # COCO-pretrained starting point (transfer learning)
+  weights: models/plate_detector.pt
+  image_size: 640
+  epochs: 50
+  batch: 16
+  patience: 15                  # Early stopping if val mAP does not improve
+  val_split: 0.15
+  test_split: 0.05
+  conf_threshold: 0.35          # Minimum confidence to keep a detection
+  iou_threshold: 0.45           # Non-max suppression overlap threshold
+  seed: 42
+
+# -----------------------------------------------------------------------------
+# Stage 2 - Character recognition (CRNN = CNN + BiLSTM + CTC loss)
+# -----------------------------------------------------------------------------
+ocr:
+  weights: models/crnn_plate.pt
+  image_height: 32
+  image_width: 128
+  hidden_size: 256              # BiLSTM hidden units per direction
+  epochs: 40
+  batch: 128
+  learning_rate: 0.001
+  synthetic_train: 40000        # Number of rendered training plates
+  synthetic_val: 4000
+  seed: 42
+
+# -----------------------------------------------------------------------------
+# Dashboard
+# -----------------------------------------------------------------------------
+app:
+  video_frame_stride: 5         # Run the pipeline on every Nth video frame
+  max_upload_mb: 200

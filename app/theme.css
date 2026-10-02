@@ -1,0 +1,270 @@
+/* ==========================================================================
+   Netra dashboard theme
+   --------------------------------------------------------------------------
+   Visual language borrowed from Indian road infrastructure:
+     - signage blue  (#1F4E9C)  : primary actions, HSRP "IND" strip
+     - marking amber (#E8A317)  : readings that need a manual check
+     - asphalt ink   (#1E2328)  : text
+     - concrete      (#F1F2F0)  : page background
+   Typeface: Barlow - a grotesk modelled on highway signage lettering.
+   The number plate readout is the one bold element; everything else stays
+   quiet so the result is what the eye lands on.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@500;600&family=Barlow+Condensed:wght@600;700&display=swap");
+
+:root {
+  --nt-ink: #1E2328;
+  --nt-ink-soft: #5E6A75;
+  --nt-concrete: #F1F2F0;
+  --nt-surface: #FFFFFF;
+  --nt-line: #D7DBDF;
+  --nt-blue: #1F4E9C;
+  --nt-blue-tint: #E7EDF7;
+  --nt-amber: #E8A317;
+  --nt-amber-tint: #FDF3DE;
+  --nt-green: #2E7D4F;
+  --nt-red: #B23A2E;
+  --nt-radius: 6px;
+}
+
+/* ---------- Base ---------- */
+html, body, [class*="css"], .stApp, .stMarkdown, button, input, textarea, select {
+  font-family: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+.stApp { background: var(--nt-concrete); color: var(--nt-ink); }
+.block-container { padding-top: 1.6rem; padding-bottom: 3rem; max-width: 1280px; }
+
+/* Hide Streamlit chrome that makes the app look like a prototype. */
+#MainMenu, footer, [data-testid="stDeployButton"], [data-testid="stToolbar"] { display: none !important; }
+[data-testid="stHeader"] { background: transparent; height: 0; }
+[data-testid="stDecoration"] { display: none; }
+
+h1, h2, h3, h4 { font-family: "Barlow Semi Condensed", "Barlow", sans-serif; color: var(--nt-ink); letter-spacing: -0.005em; }
+.stApp code, code { font-size: 0.86em; background: #E9EBEC; color: var(--nt-ink); padding: 0.1em 0.35em; border-radius: 3px; }
+
+*:focus-visible { outline: 2px solid var(--nt-blue) !important; outline-offset: 2px; }
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"] { background: var(--nt-surface); border-right: 1px solid var(--nt-line); }
+[data-testid="stSidebar"] h2 { font-size: 1.05rem; font-weight: 600; margin: 0.4rem 0 0.2rem; }
+[data-testid="stSidebar"] .nt-side-note { color: var(--nt-ink-soft); font-size: 0.86rem; line-height: 1.45; }
+
+/* ---------- Masthead ---------- */
+.nt-masthead {
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
+  padding: 0 0 1.1rem; margin-bottom: 0.4rem; border-bottom: 2px solid var(--nt-ink);
+}
+.nt-brand { display: flex; align-items: center; gap: 0.9rem; }
+.nt-brand h1 { font-size: 2rem; font-weight: 600; margin: 0; padding: 0; line-height: 1; }
+.nt-brand p { margin: 0.25rem 0 0; color: var(--nt-ink-soft); font-size: 0.98rem; }
+.nt-mark {
+  width: 44px; height: 44px; border-radius: 8px; background: var(--nt-blue);
+  display: grid; place-items: center;
+}
+.nt-mark span {
+  width: 26px; height: 12px; border-radius: 2px; background: #fff;
+  box-shadow: inset 0 0 0 2px var(--nt-blue), inset 0 0 0 3px #fff;
+  position: relative;
+}
+.nt-mark span::after {
+  content: ""; position: absolute; inset: 4px 9px; background: var(--nt-ink); border-radius: 50%;
+}
+.nt-statuses { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+.nt-status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.9rem; color: var(--nt-ink-soft); }
+.nt-status i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.nt-status--ready i { background: var(--nt-green); }
+.nt-status--missing i { background: var(--nt-amber); }
+.nt-status--missing { color: var(--nt-ink); }
+
+/* ---------- Tabs ---------- */
+.stTabs [data-baseweb="tab-list"] { gap: 1.6rem; border-bottom: 1px solid var(--nt-line); }
+.stTabs [data-baseweb="tab"] {
+  font-family: "Barlow Semi Condensed", sans-serif; font-size: 1.02rem; font-weight: 500;
+  padding: 0.7rem 0; background: transparent; color: var(--nt-ink-soft);
+}
+.stTabs [aria-selected="true"] { color: var(--nt-ink); }
+.stTabs [data-baseweb="tab-highlight"] { background: var(--nt-blue); height: 3px; }
+.stTabs [data-baseweb="tab-border"] { display: none; }
+
+/* ---------- Inputs ---------- */
+[data-testid="stFileUploaderDropzone"] {
+  background: var(--nt-surface); border: 1.5px dashed #AEB6BE; border-radius: var(--nt-radius);
+}
+[data-testid="stFileUploaderDropzone"]:hover { border-color: var(--nt-blue); }
+.stButton > button, .stDownloadButton > button {
+  border-radius: var(--nt-radius); font-weight: 500; border: 1px solid var(--nt-line);
+}
+.stButton > button[kind="primary"] { background: var(--nt-blue); border-color: var(--nt-blue); }
+
+/* ---------- Image frame ---------- */
+[data-testid="stImage"] img { border-radius: var(--nt-radius); border: 1px solid var(--nt-line); }
+[data-testid="stImageCaption"], [data-testid="caption"] { color: var(--nt-ink-soft); font-size: 0.85rem; }
+
+/* ---------- Number plate (the hero element) ---------- */
+.nt-plate {
+  display: flex; align-items: stretch; background: #FBFBF8; color: #111;
+  border: 3px solid #1A1A1A; border-radius: 9px; overflow: hidden;
+  box-shadow: inset 0 0 0 2px #FBFBF8, inset 0 0 0 3.5px #9AA0A6, 0 1px 0 rgba(0,0,0,.08);
+  max-width: 100%;
+}
+.nt-plate__strip {
+  background: var(--nt-blue); color: #fff; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end; gap: 0.25rem; padding: 0.4rem 0.45rem 0.35rem;
+}
+.nt-plate__strip b { font-family: "Barlow", sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.04em; }
+.nt-plate__chakra {
+  width: 16px; height: 16px; border-radius: 50%; border: 2px solid #fff; opacity: 0.85;
+  background: radial-gradient(circle, #fff 0 2px, transparent 2.5px);
+}
+.nt-plate__text {
+  flex: 1; display: flex; align-items: center; justify-content: center; white-space: nowrap;
+  font-family: "Barlow Condensed", "Roboto Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif; font-weight: 700; line-height: 1;
+  padding: 0.35em 0.5em;
+}
+.nt-plate--lg .nt-plate__text { font-size: clamp(2rem, 3.6vw, 3.1rem); }
+.nt-plate--sm .nt-plate__text { font-size: 1.45rem; }
+.nt-plate--sm .nt-plate__strip { padding: 0.25rem 0.3rem; }
+.nt-plate--sm .nt-plate__chakra { width: 11px; height: 11px; border-width: 1.5px; }
+.nt-plate--review { border-color: var(--nt-amber); }
+
+/* ---------- Reading panel ---------- */
+.nt-reading {
+  background: var(--nt-surface); border: 1px solid var(--nt-line); border-radius: var(--nt-radius);
+  padding: 1.25rem; margin-bottom: 1rem;
+}
+.nt-reading__meta { margin: 1rem 0 0.6rem; }
+.nt-reading dl { margin: 0.75rem 0 0; display: grid; gap: 0.45rem; }
+.nt-reading dl div { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.75rem; font-size: 0.95rem; }
+.nt-reading dt { color: var(--nt-ink-soft); }
+.nt-reading dd { margin: 0; font-weight: 500; }
+.nt-raw { font-family: "Barlow Semi Condensed", sans-serif; letter-spacing: 0.06em; }
+
+.nt-pill { display: inline-block; font-size: 0.85rem; font-weight: 600; padding: 0.22rem 0.6rem; border-radius: 3px; }
+.nt-pill--ok { background: var(--nt-blue-tint); color: var(--nt-blue); }
+.nt-pill--warn { background: var(--nt-amber-tint); color: #8A5A00; }
+
+.nt-bar { margin-top: 0.8rem; }
+.nt-bar__row { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--nt-ink-soft); }
+.nt-bar__row strong { color: var(--nt-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.nt-bar__track { height: 6px; background: #E6E8EA; border-radius: 3px; margin-top: 0.3rem; overflow: hidden; }
+.nt-bar__fill { height: 100%; border-radius: 3px; transition: width 0.5s ease-out; }
+.nt-bar__fill--high { background: var(--nt-blue); }
+.nt-bar__fill--mid { background: var(--nt-amber); }
+.nt-bar__fill--low { background: var(--nt-red); }
+
+/* ---------- Timings strip ---------- */
+.nt-timings {
+  display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--nt-line);
+  border-radius: var(--nt-radius); background: var(--nt-surface); margin-top: 0.6rem;
+}
+.nt-timings div { padding: 0.65rem 0.9rem; border-left: 1px solid var(--nt-line); }
+.nt-timings div:first-child { border-left: 0; }
+.nt-timings span { display: block; font-size: 0.82rem; color: var(--nt-ink-soft); }
+.nt-timings strong {
+  font-family: "Barlow Semi Condensed", sans-serif; font-size: 1.35rem; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.nt-timings small { font-size: 0.8rem; color: var(--nt-ink-soft); font-weight: 500; }
+
+/* ---------- Section headings inside tabs ---------- */
+.nt-section-title { font-size: 1.15rem; font-weight: 600; margin: 0.4rem 0 0.6rem; }
+.nt-lede { color: var(--nt-ink-soft); max-width: 68ch; margin: 0.2rem 0 1rem; line-height: 1.5; }
+
+/* ---------- Empty and setup states ---------- */
+.nt-empty {
+  border: 1px solid var(--nt-line); background: var(--nt-surface); border-radius: var(--nt-radius);
+  padding: 2.2rem 1.6rem; text-align: left;
+}
+.nt-empty h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+.nt-empty p { margin: 0; color: var(--nt-ink-soft); max-width: 60ch; }
+
+.nt-setup {
+  background: var(--nt-surface); border: 1px solid var(--nt-line); border-left: 4px solid var(--nt-amber);
+  border-radius: var(--nt-radius); padding: 1.3rem 1.5rem; margin: 1rem 0 1.4rem;
+}
+.nt-setup h3 { margin: 0 0 0.3rem; font-size: 1.15rem; }
+.nt-setup > p { color: var(--nt-ink-soft); margin: 0 0 0.9rem; max-width: 70ch; }
+.nt-setup ol { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.55rem; }
+.nt-setup li::marker { font-weight: 600; color: var(--nt-ink-soft); }
+.nt-setup li div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem 0.8rem; }
+.nt-setup li strong { font-weight: 500; }
+.nt-setup li.done strong { color: var(--nt-ink-soft); text-decoration: line-through; }
+.nt-setup li.done::marker { color: var(--nt-green); }
+
+/* ---------- Pipeline stage strip ---------- */
+.nt-stage-label { font-size: 0.85rem; color: var(--nt-ink-soft); margin-bottom: 0.3rem; }
+
+/* ---------- Data tables ---------- */
+[data-testid="stDataFrame"] { border: 1px solid var(--nt-line); border-radius: var(--nt-radius); }
+
+/* ---------- Model page ---------- */
+.nt-arch { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0; margin: 0.6rem 0 1.4rem;
+  border: 1px solid var(--nt-line); border-radius: var(--nt-radius); background: var(--nt-surface); }
+.nt-arch div { padding: 1rem 1.1rem; border-left: 1px solid var(--nt-line); }
+.nt-arch div:first-child { border-left: 0; }
+.nt-arch h4 { margin: 0 0 0.3rem; font-size: 1rem; }
+.nt-arch p { margin: 0; color: var(--nt-ink-soft); font-size: 0.92rem; line-height: 1.45; }
+
+@media (max-width: 760px) {
+  .nt-timings { grid-template-columns: 1fr; }
+  .nt-timings div { border-left: 0; border-top: 1px solid var(--nt-line); }
+  .nt-timings div:first-child { border-top: 0; }
+  .nt-reading dl div { grid-template-columns: 1fr; gap: 0.1rem; }
+  .nt-arch div { border-left: 0; border-top: 1px solid var(--nt-line); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nt-bar__fill { transition: none; }
+}
+
+/* Streamlit adds its own heading sizes and padding; these keep custom headings consistent. */
+.stMarkdown h3.nt-section-title { font-size: 1.15rem; font-weight: 600; padding: 0; margin: 0.4rem 0 0.6rem; }
+.stMarkdown .nt-empty h3, .stMarkdown .nt-setup h3 { font-size: 1.15rem; padding: 0; }
+.stMarkdown .nt-arch h4 { font-size: 1rem; padding: 0; }
+
+/* ---------- Sign-in page ---------- */
+.nt-login__intro { padding: 1.5rem 0.5rem 1rem 0; }
+.nt-login__intro .nt-brand h1 { font-size: 2.3rem; }
+.nt-login__plate { margin: 2.4rem 0 1.6rem; max-width: 460px; }
+.nt-login__plate .nt-plate__text { font-size: clamp(2.4rem, 4.4vw, 3.6rem); letter-spacing: 0.02em; }
+.nt-login__lede { font-size: 1.08rem; line-height: 1.55; max-width: 44ch; color: var(--nt-ink); margin: 0 0 1.6rem; }
+.nt-login__facts { margin: 0; display: grid; gap: 0.55rem; border-top: 1px solid var(--nt-line); padding-top: 1.1rem; max-width: 460px; }
+.nt-login__facts div { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.8rem; font-size: 0.95rem; }
+.nt-login__facts dt { color: var(--nt-ink-soft); }
+.nt-login__facts dd { margin: 0; }
+.nt-login__card-head { padding-top: 1.6rem; }
+.stMarkdown .nt-login__card-head h2 { font-size: 1.6rem; font-weight: 600; padding: 0; margin: 0; }
+.nt-login__card-head p { color: var(--nt-ink-soft); margin: 0.3rem 0 0.9rem; }
+[data-testid="stForm"] { background: var(--nt-surface); border: 1px solid var(--nt-line) !important;
+  border-radius: var(--nt-radius); padding: 1.4rem 1.4rem 1.1rem; }
+[data-testid="stForm"] input { font-size: 1rem; }
+[data-testid="stFormSubmitButton"] button { margin-top: 0.5rem; padding: 0.55rem 0; font-size: 1rem; }
+.nt-login__note { font-size: 0.86rem; color: var(--nt-ink-soft); margin-top: 0.9rem; line-height: 1.5; }
+
+/* ---------- Signed-in account (sidebar) ---------- */
+.nt-account { display: flex; align-items: center; gap: 0.7rem; padding: 0.2rem 0 0.8rem; }
+.nt-account__avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--nt-blue-tint);
+  color: var(--nt-blue); display: grid; place-items: center; font-weight: 600; font-size: 0.92rem; flex: none; }
+.nt-account strong { display: block; font-weight: 600; font-size: 0.95rem; line-height: 1.2; }
+.nt-account span { font-size: 0.82rem; color: var(--nt-ink-soft); }
+
+/* Text inputs: visible field edges on white surfaces. */
+[data-baseweb="input"], [data-baseweb="base-input"] { background: #F6F7F6 !important; }
+[data-baseweb="input"] { border: 1px solid #C9CFD5 !important; border-radius: var(--nt-radius) !important; }
+[data-baseweb="input"]:focus-within { border-color: var(--nt-blue) !important; }
+
+/* Plate text never spills out if the condensed web font has not loaded. */
+.nt-plate__text { overflow: hidden; font-stretch: condensed; }
+.nt-login__plate { max-width: 520px; }
+.nt-login__plate .nt-plate__text { font-size: clamp(2rem, 3.6vw, 3rem); }
+[data-testid="stTextInputRootElement"] {
+  background: #F6F7F6 !important; border: 1px solid #C9CFD5 !important; border-radius: var(--nt-radius) !important;
+}
+[data-testid="stTextInputRootElement"]:focus-within { border-color: var(--nt-blue) !important; background: #fff !important; }
+
+/* ---------- Dashboard header (brand left, user right) ---------- */
+.nt-masthead { border-bottom: 0; padding: 0; margin: 0; }
+.nt-masthead .nt-brand h1 { font-size: 2rem; }
+.nt-rule { border-bottom: 2px solid var(--nt-ink); margin: 0.3rem 0 0.4rem; }
+.nt-account { justify-content: flex-end; padding: 0; text-align: left; }

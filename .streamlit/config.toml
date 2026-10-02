@@ -1,0 +1,19 @@
+# Streamlit settings for the Netra dashboard.
+# The colours match app/theme.css so native widgets blend with custom components.
+
+[theme]
+base = "light"
+primaryColor = "#1F4E9C"
+backgroundColor = "#F1F2F0"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1E2328"
+
+[server]
+maxUploadSize = 200
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
